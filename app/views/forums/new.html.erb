@@ -1,0 +1,5 @@
+<% title 'New Forum' %>
+<%= render 'shared/staff_menu' %>
+<%= form_for @forum, :as => :forum, :url => create_forum_path do |f| %>
+  <%= render 'form', :f => f %>
+<% end %>

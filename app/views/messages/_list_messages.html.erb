@@ -1,0 +1,19 @@
+<div class="list">
+  <table>
+    <tr>
+      <th style="width:20%"><%= type == 'inbox' ? 'From' : 'To' %></th>
+      <th style="width:45%">Subject</th>
+      <th style="width:20%">Date</th>
+      <th style="width:15%">Action</th>
+    </tr>
+  <% @messages.each do |message| %>
+    <tr class="<%= cyclize %><%= ' bold' if !message.read? && type == 'inbox' %>">
+      <td><%= link_to u = (type == 'inbox' ? message.user : message.recipient).username, show_profile_path(:username => u) %></td>
+      <td><%= link_to message.subject, show_message_path(message) %></td>
+      <td><%= message.created_at.strftime('%m/%d/%g %H:%M') %></td>
+      <td><%= link_to 'Mark ' + (message.read? ? 'Unread' : 'Read'), toggle_message_path(message) if type == 'inbox' %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<div class="alignright" style="margin-top: 5px"><%= paginate @messages %></div>

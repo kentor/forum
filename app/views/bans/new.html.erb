@@ -1,0 +1,35 @@
+<% title 'New Ban' %>
+<%= render 'shared/staff_menu' %>
+<div class="form">
+  <%= form_for :ban, :url => create_ban_path(:post_id => params[:post_id], :page => params[:page]) do |f| %>
+    <table>
+      <tr>
+        <td>Username:</td>
+        <td><%= f.text_field :username, :value => params[:username] %></td>
+      <tr>
+        <td>Duration:</td>
+        <td><%= f.select :duration, ["2 days", "1 week", "2 weeks", "30 days", "60 days", "90 days", "Permanent"] %></td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top">Reason:</td>
+        <td>
+          <%= f.radio_button :reason, 'I have my reasons.' %> I have my reasons.<br />
+          <%= f.radio_button :reason, 'Previously banned user.' %> Previously banned user.<br />
+          <%= f.radio_button :reason, 'Malicious user.' %> Malicious user.<br />
+          <%= f.radio_button :reason, 'Advertising.' %> Advertising.<br />
+          <%= f.radio_button :reason, 'Spammer.' %> Spammer.<br />
+          <%= f.radio_button :reason, 'other', :checked => true %> Other (only works if selected):<br />
+          <%= f.text_area :other_reason %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= submit_tag "Ban!" %></td>
+        <td>
+        <% if params[:post_id] %>
+          Leave ban notice for Post #<%= params[:post_id] %> <%= check_box_tag :post_ban, true, true %>
+        <% end %>
+        </td>
+      </tr>
+    </table>
+    <% end %>
+</div>

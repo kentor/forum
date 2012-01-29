@@ -1,0 +1,12 @@
+<% title "Forum Stats" %>
+<%= render 'shared/staff_menu' %>
+<div class="presentation">
+  <table cellspacing="1">
+  <% @stats.each_pair do |k,v| %>
+    <tr>
+      <td><%= k %></td>
+      <td><%= v.scoped.size %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>

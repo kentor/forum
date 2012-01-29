@@ -1,0 +1,4 @@
+You have registered at forum.kpopflash.net
+Username: <%= @user.username %>
+
+You must now activate your account, click here to activate <%= activate_user_url(:id => @user.id, :key => @user.activation_key) %>

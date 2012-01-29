@@ -1,0 +1,123 @@
+<% title "User Info for #{@user.username}" %>
+<%= render 'shared/staff_menu' %>
+<div class="presentation">
+  <table cellspacing="1">
+    <tr>
+      <td class="valignmiddle">Username</td>
+      <td>
+        <%= user_icon(@user) %>
+        <%= @user.styled_name %> (ID# <%= @user.id %>)
+        <%= link_to 'View Profile', show_profile_path(:username => @user.username) %> |
+        <%= link_to 'Send PM', new_message_path(:recipient => @user.username) %>
+        <%=raw ' | ' + link_to('Edit', edit_user_path(:username => @user.username)) if is_mod? %>
+      </td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td><%= show_status(@user) %></td>
+    </tr>
+    <tr>
+      <td>Location</td>
+      <td><%= @user.location %></td>
+    </tr>
+    <tr>
+      <td>Joined</td>
+      <td><%= @user.created_at.strftime("%B %d %Y %H:%M") %></td>
+    </tr>
+    <tr>
+      <td>Registration IP</td>
+      <td><%= link_to ip = @user.registration_ip, users_path(:ip => ip) %></td>
+    </tr>
+    <tr>
+      <td>Last Login</td>
+      <td><%= @user.logins.last.created_at.strftime("%B %d %Y %H:%M") if @user.logins.size > 0 %></td>
+    </tr>
+    <tr>
+      <td>Last Login IP</td>
+      <td><%= link_to ip = @user.logins.last.ip, users_path(:ip => ip) if @user.logins.size > 0 %></td>
+    </tr>
+    <tr>
+      <td>Last Seen At</td>
+      <td><%= @user.last_seen_at && @user.last_seen_at.strftime("%B %d %Y %H:%M") %></td>
+    </tr>
+    <tr>
+      <td>Last Seen IP</td>
+      <td><%= link_to ip = @user.last_seen_ip, users_path(:ip => ip) if @user.last_seen_ip %></td>
+    </tr>
+    <tr>
+      <td>Email Address</td>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <td>Posts</td>
+      <td>
+        <table class="none">
+          <tr>
+            <td>Total:</td>
+            <td>
+              <%= link_to @user.posts.size, posts_path(:username => @user.username) %>
+              (Started <%= link_to @user.posts.select(&:is_thread?).size, search_path(:q => '', :t => 't', :u => @user.username) %> Threads)
+            </td>
+          </tr>
+          <tr>
+            <td>Today:</td>
+            <td><%= @user.recent_posts(1.day.ago).size %></td>
+          </tr>
+          <tr>
+            <td>This Week:</td>
+            <td><%= @user.recent_posts.size %></td>
+          </tr>
+          <tr>
+            <td>Latest:</td>
+            <td><%= @user.posts.last.nil? ? 'N/A' : @user.posts.last.created_at.strftime("%B %d %Y %H:%M") %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td>IPs Used</td>
+      <td><% @ips.each do |ip| %><%= link_to ip, users_path(:ip => ip) %> &nbsp;<% end %></td>
+    </tr>
+    <tr>
+      <td>Others using same IPs within 30 days</td>
+      <td><% @other_logins.each do |u| %><%= link_to u, show_user_path(:username => u) %> &nbsp;<% end %></td>
+    </tr>
+    <tr>
+      <td>User Groups</td>
+      <td><%= @user.groups %></td>
+    </tr>
+    <tr>
+      <td>Warning Count</td>
+      <td><%= @user.warnings.size %></td>
+    </tr>
+    <tr>
+      <td>Ban Count</td>
+      <td><%= link_to @user.bans.size, bans_history_path(:username => @user.username) %></td>
+    </tr>
+  </table>
+</div>
+
+<% if (u = @user.warnings_and_bans).any? %>
+<h2><span>Latest Warnings and Bans</span></h2>
+  <div class="list">
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>By</th>
+        <th>On</th>
+        <th>Post</th>
+        <!-- <th></th> -->
+      </tr>
+      <% u.each do |wb| %>
+      <tr class="<%= cyclize %>">
+        <td><%= wb.class %></td>
+        <td><%= (wb.is_a?(Ban) ? wb.banner : wb.warner).styled_name %></td>
+        <td><%= wb.created_at.strftime("%B %d %Y %H:%M") %></td>
+        <td><%= link_to 'Link', show_thread_path(wb.post.topic_id, :page => wb.post.page,
+          :anchor => wb.post.sub_id) if wb.post && wb.post_id %></td>
+        <!-- <td>Destroy</td> -->
+      </tr>
+      <% end %>
+    </table>
+  </div>
+<% end %>

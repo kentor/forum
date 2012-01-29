@@ -1,0 +1,7 @@
+<ul>
+  <li><%= link_to_unless_current 'Inbox', messages_path %></li>
+  <li><%= link_to_unless_current 'Sent', sent_messages_path %></li>
+<% if can_pm%>
+  <li><%= link_to_unless_current 'New PM', new_message_path %></li>
+<% end %>
+</ul>

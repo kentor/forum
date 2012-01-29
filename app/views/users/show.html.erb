@@ -1,0 +1,55 @@
+<% title "Public Profile for #{@user.username}" %>
+<div class="presentation">
+  <table cellspacing="1">
+    <tr>
+      <td class="valignmiddle">Username</td>
+      <td class="valignmiddle">
+        <%= "#{user_icon(@user)} #{@user.styled_name}".html_safe %>
+        <%= " &nbsp; [ #{link_to 'edit', edit_profile_path} ]".html_safe if @user == current_user %>
+      </td>
+    </tr>
+    <tr>
+      <td>Photo</td>
+      <td><%= show_photo(@user) %></td>
+    </tr>
+    <tr>
+      <td>Joined KPF</td>
+      <td><%= @user.created_at.strftime("#{@user.created_at.day.ordinalize} of %B, %Y") %></td>
+    </tr>
+    <tr>
+      <td>Birthday</td>
+      <td><%= @user.show_birthday %></td>
+    </tr>
+    <tr>
+      <td>Location</td>
+      <td><%= @user.location %></td>
+    </tr>
+    <tr>
+      <td>Signature</td>
+      <td><%= @user.signature %></td>
+    </tr>
+    <tr>
+      <td>Total Posts</td>
+      <td><%= link_to_if current_user, @user.posts.size, posts_path(:username => @user.username) %></td>
+    </tr>
+    <tr>
+      <td>Average Posts Per Day</td>
+      <td><%= @user.avg_posts %></td>
+    </tr>
+    <tr>
+      <td>Average Posts Per Week</td>
+      <td><%= @user.avg_posts(7.days) %></td>
+    </tr>
+    <tr>
+      <td>Posts made in the last week</td>
+      <td><%= @user.recent_posts.size %></td>
+    </tr>
+  </table>
+</div>
+
+<% if @user.profile.present? %>
+  <%= @user.username %>'s Public profile:
+  <div class="public-profile">
+    <%= bb @user.profile  %>
+  </div>
+<% end %>

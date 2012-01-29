@@ -1,0 +1,40 @@
+<div class="form">
+  <table>
+    <tr>
+      <td>Title</td>
+      <td><%= f.text_field :title %></td>
+    </tr>
+    <tr>
+      <td>Groups Allowed to View</td>
+      <td><%= f.text_field :allowed_to_view %></td>
+    </tr>
+    <tr>
+      <td>Groups Allowed to Read</td>
+      <td><%= f.text_field :allowed_to_read %></td>
+    </tr>
+    <tr>
+      <td>Groups Allowed to Reply</td>
+      <td><%= f.text_field :allowed_to_reply %></td>
+    </tr>
+    <tr>
+      <td>Groups Allowed to Create</td>
+      <td><%= f.text_field :allowed_to_create %></td>
+    </tr>
+    <tr>
+      <td>Position</td>
+      <td><%= f.text_field :position %></td>
+    </tr>
+    <tr>
+      <td># of threads in index</td>
+      <td><%= f.text_field :threads_in_index %></td>
+    </tr>
+    <tr>
+      <td># of threads in forum</td>
+      <td><%= f.text_field :threads_in_forum %></td>
+    </tr>
+    <tr>
+      <td><%= submit_tag "Submit" %></td>
+      <td></td>
+    </tr>
+  </table>
+</div>

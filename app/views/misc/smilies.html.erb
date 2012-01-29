@@ -1,0 +1,32 @@
+<% title "Smilies" %>
+<div class="list">
+  <table>
+    <tr>
+    <% 4.times do %>
+      <th style="text-align:left">Smiley</th>
+      <th style="text-align:left">Code</th>
+    <% end %>
+    </tr>
+  <% Smiley.all.in_groups_of(4).each do |smiley_row| %>
+    <tr>
+    <% smiley_row.each do |smiley| %>
+      <td><%= image_tag("#{SMILIES_PUB_PATH}/#{smiley.filename}") if smiley %></td>
+      <td><%= smiley.code if smiley %></td>
+    <% end %>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<h2><span>BBCode</span></h2>
+<%= bb("[b]&#91;b&#93;Bold&#91;/b&#93;[/b]
+[i]&#91;i&#93;Italics&#91;/i&#93;[/i]
+[u]&#91;u&#93;Underline&#91;/u&#93;[/u]
+[s]&#91;s&#93;Strikethrough&#91;/s&#93;[/s]
+[center]&#91;center&#93;Centered Text&#91;/center&#93;[/center][red]&#91;red&#93;Red Text&#91;/red&#93;[/red]
+[green]&#91;green&#93;Green Text&#91;/green&#93;[/green]
+[blue]&#91;blue&#93;Blue Text&#91;/blue&#93;[/blue]
+[quote]&#91;quote&#93;Quoted Text&#91;/quote&#93;[/quote][spoiler]&#91;spoiler&#93;Spoilered Text&#91;/spoiler&#93;[/spoiler]
+&#91;img&#93;Image URL&#91;/img&#93;
+&#91;url&#93;http://google.com &#91;/url&#93;
+[list][*]&#91;list&#93;&#91;*&#93item&#91;/list&#93;[/list]") %>

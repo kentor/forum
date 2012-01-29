@@ -1,0 +1,26 @@
+<%# The container tag
+  - available local variables
+    current_page:  a page object for the currently displayed page
+    num_pages:     total number of pages
+    per_page:      number of items to fetch per page
+    remote:        data-remote
+    paginator:     the paginator that renders the pagination tags inside
+-%>
+<%= paginator.render do -%>
+  <nav class="pagination">
+    <%= prev_page_tag unless current_page.first? %>
+    <% if num_pages <= 100 -%>
+      <% each_page do |page| -%>
+        <%= page_tag page %>
+      <% end -%>
+    <% else -%>
+      <% each_page do |page| -%>
+        <% p = page.to_i -%>
+        <% if p <= 10 || p % 100 == 0 || p >= num_pages-10 || (current_page-10..current_page+10).cover?(p) -%>
+          <%= page_tag page %>
+        <% end  -%>
+      <% end -%>
+    <% end -%>
+    <%= next_page_tag unless current_page.last? %>
+  </nav>
+<% end -%>

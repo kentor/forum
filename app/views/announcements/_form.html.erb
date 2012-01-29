@@ -1,0 +1,12 @@
+<div class="form">
+  <table>
+    <tr>
+      <td>Message:</td>
+      <td><%= f.text_area :message %></td>
+    </tr>
+    <tr>
+      <td><%= submit_tag 'Submit' %></td>
+      <td>Turn on: <%= f.check_box :live %></td>
+    </tr>
+  </table>
+</div>

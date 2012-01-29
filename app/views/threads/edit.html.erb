@@ -1,0 +1,23 @@
+<% title "Editing: #{@thread.title}" %>
+<div class="form">
+  <%= form_for @thread, :as => :thread, :url => update_thread_path do |f| %>
+    <table>
+      <tr>
+        <td>Title:</td>
+        <td><%= f.text_field :title, :maxlength => 50 %></td>
+      </tr>
+      <tr>
+        <td>Forum:</td>
+        <td><%= f.select :forum_id, allowed_forums(true) %></td>
+      </tr>
+      <tr>
+        <td><%= f.submit 'Save' %></td>
+        <td>
+          Sticky: <%= f.check_box :sticky %>
+          Locked: <%= f.check_box :locked %> <%= link_to 'Delete', destroy_thread_path(@thread), :confirm => "Are you sure?" %>
+          (All posts in this thread will be deleted.)
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

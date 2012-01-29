@@ -1,0 +1,23 @@
+<% title 'Warn!' %>
+<div class="form">
+  <%= form_for @message, :as => :message, :url => create_warning_path(:username => params[:username], :post_id => params[:post_id], :page => params[:page]) do |f| %>
+    <table>
+      <tr>
+        <td>To</td>
+        <td><%= params[:username] %></td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td><%= f.text_field :subject%></td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top">Message</td>
+        <td><%= f.text_area :body %></td>
+      </tr>
+      <tr>
+        <td><%= submit_tag 'Warn!' %></td>
+        <td>Leave warn notice for post #<%= params[:post_id] %> <%= check_box_tag :post_warn, true, true %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

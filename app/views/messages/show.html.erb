@@ -1,0 +1,42 @@
+<% title 'Reading Message' %>
+<div class="mykpf">
+  <table>
+    <tr>
+      <td class="mykpf-sidebar">
+        <%= render 'mykpf_sidebar' %>
+      </td>
+      <td>
+        <table class="pm-headers size13">
+          <tr>
+            <td><%= t = (@message_sender == current_user.username ? 'To:' : 'From:') %></td>
+            <td>
+              <%= t == 'To:' ? @message.recipient.username :
+                link_to(@message_sender, new_message_path(:recipient => @message_sender)) %>
+              <span class="size11">
+                [
+                  <%= @message.user.posts.size %> Posts |
+                  <%= link_to "View Profile", show_profile_path(:username => @message_sender) %>
+                  <%=raw "| " + link_to("User Info", show_user_path(:username => @message_sender)) if is_staff? %>
+                ]
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>Subject:</td>
+            <td><%= @message.subject %></td>
+          </tr>
+          <tr>
+            <td>Date:</td>
+            <td><%= @message.created_at.strftime("%B %d %Y %H:%M") %></td>
+          </tr>
+        </table>
+      
+        <div class="pm-body bglightgray size13">
+          <%= bb @message.body %>
+        </div>
+        
+        &nbsp;<%= link_to 'Reply', new_message_path(:recipient => @message_sender, :reply => @message.id) if can_pm && your_pm?(@message) %>
+      </td>
+    </tr>
+  </table>
+</div>

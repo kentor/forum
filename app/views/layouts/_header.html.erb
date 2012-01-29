@@ -1,0 +1,28 @@
+<div>
+  <table>
+    <tr>
+      <td width="70%">
+        Active : <%= Session.active_users %>&nbsp;
+        Logged in : <%= link_to_if is_staff?, User.logged_in.size, sessions_path %><br />
+        <%= link_to 'Index', root_path %>
+      <% if !current_user %>
+        <%= link_to 'Login', login_path %>
+        <%= link_to 'Register', new_user_path %>
+      <% else %>
+        <strong><%= link_to 'Logout', logout_path %></strong> : <%= current_user.username %><%= current_user.status %>
+        <% if current_user.unactivated? %>
+          &nbsp;<%= link_to 'Resend Email', resend_activation_path(current_user) %>
+        <% end %><br />
+        <%= pm %>
+        <%= link_to 'Profile', show_profile_path(:username => current_user.username) %>
+        <%= link_to 'Posts', posts_path %>
+        <%= link_to 'Staff', admin_path if is_staff? %>
+      <% end %>
+      </td>
+      <td class="alignright">
+        <%= Time.now.strftime("%a, %b %d, %H:%M %Z") %><br />
+        <%= link_to 'Search', search_path %><br />
+      </td>
+    </tr>
+  </table>
+</div>

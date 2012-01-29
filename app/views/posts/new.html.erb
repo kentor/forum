@@ -1,0 +1,16 @@
+<% title 'Add Reply' %>
+<% if params[:preview]%>
+<div class="post bglightgray">
+  <div class="body size13">
+    <%= bb @post.body, :smilies => @post.smilies, :html => @post.html %>
+  </div>
+</div>
+<% end %>
+<div class="post">
+  <div class="header"><%= current_user.username %> &nbsp; <%= Time.now.strftime('%B %d %Y %H:%M') %></div> 
+  <div class="form">
+    <%= form_for @post, :as => :post, :url => create_post_path(:thread_id => params[:thread_id]) do |f| %>
+      <%= render 'shared/add_reply_form', :f => f, :big => true %>
+    <% end %>
+  </div>
+</div>

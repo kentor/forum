@@ -1,0 +1,34 @@
+<% title 'New Private Message' %>
+<div class="mykpf">
+  <table>
+    <tr>
+      <td class="mykpf-sidebar">
+        <%= render 'mykpf_sidebar' %>
+      </td>
+      <td>
+        <div class="form">
+          <%= form_for @message, :as => :message, :url => create_message_path do |f| %>
+            <table>
+              <tr>
+                <td>To</td>
+                <td><%= f.text_field :recipient, :value => params[:recipient] %></td>
+              </tr>
+              <tr>
+                <td>Subject</td>
+                <td><%= f.text_field :subject, :maxlength => 50, :size => 30 %></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top">Message</td>
+                <td><%= f.text_area :body %></td>
+              </tr>
+              <tr>
+                <td><%= submit_tag 'Send Message' %></td>
+                <td><%= link_to "Smilies and BBcode", smilies_and_bbcode_path, :target => "_blank" %></td>
+              </tr>
+            </table>
+          <% end %>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

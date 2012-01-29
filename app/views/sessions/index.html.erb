@@ -1,0 +1,18 @@
+<% title "List of Logged In Users" %>
+<%= render 'shared/staff_menu' %>
+<div class="list">
+  <table>
+    <tr>
+      <th>Username</td>
+      <th>Last Seen At</th>
+      <th>Last Seen IP</th>
+    </tr>
+  <% @users.each do |user| %>
+    <tr class="<%= cyclize %>">
+      <td width="33%"><%= link_to user.styled_name, show_user_path(:username => user.username) %></td>
+      <td width="33%"><%= user.last_seen_at.strftime("%B %d %Y %H:%M") %></td>
+      <td width="33%"><%= link_to ip = user.last_seen_ip, users_path(:ip => ip) if user.last_seen_ip %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>

@@ -1,0 +1,30 @@
+<% if @poll %>
+  <% cache "poll-#{@poll.id}-#{@poll.votes.size}" do %>
+  <div class="title bold">A Poll:</div>
+  <h3 style="margin:0;padding:15px 0 7px"><%= @poll.name %></h3>
+  <table>
+  <% @poll.choices.sort { |a,b| b.votes_count <=> a.votes_count }.each do |choice| %>
+    <tr class="choice-name">
+      <td><%= "#{choice.name} (#{choice.votes.size})" %></td>
+    </tr>
+    <tr class="choice-bar">
+      <td><span style="width:<%= choice.width(@poll) %>"></span> (<%= choice.percent(@poll) %>)</td>
+    </tr>
+  <% end %>
+  </table>
+  <h3 style="margin:0;padding:7px 0 15px"><%= pluralize(@poll.votes.size, 'total vote') %></h3>
+  <% end %>
+  
+  <div class="choices">
+  <% if @poll.voted?(request.remote_ip) %>
+    <i>You have already voted in this poll.</i>
+  <% else %>
+    <% @poll.choices.each do |choice| %>
+      (<%= link_to 'Vote', vote_path(@poll, :choice_id => choice), "data-poll" => @poll.id, "data-choice" => choice.id, :method => :post %>) :
+      <%= choice.name %><br />
+    <% end %>
+  <% end %>
+  </div>
+<% else %>
+  Poll #<%= params[:id] %> not found.
+<% end %>

@@ -1,0 +1,15 @@
+<% title 'Editing Post' %>
+<% if params[:preview]%>
+<div class="post bglightgray">
+  <div class="body size13">
+    <%= bb @post.body, :smilies => @post.smilies, :html => @post.html %>
+  </div>
+</div>
+<% end %>
+<div class="post"> 
+  <div class="form">
+  <%= form_for @post, :as => :post, :url => update_post_path(:thread_id => params[:thread_id], :id => params[:id], :page => params[:page]) do |f| %>
+    <%= render 'shared/add_reply_form', :f => f, :big => true %>
+  <% end %>
+  </div>
+</div>

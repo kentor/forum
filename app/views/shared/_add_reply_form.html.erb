@@ -1,0 +1,19 @@
+<!-- <ul>
+<li><a href="">b</a>
+<li><a href="">i</a>
+<li><a href="">u</a>
+<li><a href="">s</a>
+<li><a href="">img</a>
+<li><a href="">url</a>
+<li><a href="">spoiler</a>
+<li><a href="">quote</a>
+</ul> -->
+<%= f.text_area :body, :style => ("height:400px" if big).to_s %>
+<%= submit_tag @post.new_record? ? 'Post' : 'Update'  %>
+<%= submit_tag 'Preview', :name => 'preview' %> &nbsp;
+<% if can_use_html %>
+<label for="post_html">Enable HTML <%= f.check_box :html, {}, true, false %></label>&nbsp;
+<% end %>
+<label for="post_smilies">Enable Smilies <%= f.check_box :smilies, {}, true, false %></label>&nbsp;
+<%= link_to "Smilies and BBcode", smilies_and_bbcode_path, :target => "_blank" %>&nbsp;
+<%= link_to "Add a Poll", new_poll_path, :target => "_blank" %>

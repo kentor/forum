@@ -1,0 +1,15 @@
+<% title 'Delete Forum: ' + @forum.title %>
+<div class="form">
+  <%= form_tag destroy_forum_path(@forum) do %>
+    <table>
+      <tr>
+        <td>Move all threads to:</td>
+        <td><%= select :forum, :id, Forum.where('id != ?', @forum.id).collect { |forum| [forum.title, forum.id] } %></td>
+      </tr>
+      <tr>
+        <td><%= submit_tag 'Delete!', :confirm => "Are you sure?" %></td>
+        <td>No Going Back!</td>
+      </tr>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,57 @@
+<% title 'Edit Profile' %>
+<% if @errors && @errors.any? %>
+<div class="error">
+  <ol>
+  <% @errors.flatten.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ol>
+</div>
+<% end %>
+<div class="form">
+  <%= form_for @user, :as => :user, :url => update_profile_path, :html => { :multipart => true } do |f| %>
+    <div><b>Change Password</b> <i>*Leave blank if you don't want to change it.</i></div>
+    <table>
+      <tr>
+        <td>New Password:</td>
+        <td><%= f.password_field :password %></td>
+      </tr>
+      <tr>
+        <td>Repeat New Password:</td>
+        <td><%= f.password_field :password_confirmation %></td> 
+      </tr>
+    </table>
+  
+    <div><b>Your Profile</b></div>  
+    <table>
+      <tr>
+        <td>Location:</td>
+        <td><%= f.select :location, [@user.location, *select_locations] %></td>
+      </tr>
+      <tr>
+        <td>Birthday:</td>
+        <td><%= f.date_select :birthday, :start_year => 80.years.ago.year, :end_year => Time.now.year, :include_blank => true %></td>
+      </tr>
+      <tr>
+        <td>Signature:</td>
+        <td><%= f.text_field :signature, :maxlength => 255, :size => 30 %> <i>255 characters max</i></td>
+      </tr>
+      <tr>
+        <td class="valigntop">Profile Photo:</td>
+        <td><%= show_photo(@user) %></td>
+      </tr>
+      <tr>
+        <td>Upload Photo (overwrites):</td>
+        <td><%= file_field_tag :photo %> Remove photo? <%= check_box_tag :remove_photo %></td>
+      </tr>
+      <tr>
+        <td class="valigntop">Public Profile:</td>
+        <td><%= f.text_area :profile %></td>
+      </tr>
+      <tr>
+        <td><%= f.submit 'Update Profile' %></td>
+        <td><%= link_to "Smilies and BBcode", smilies_and_bbcode_path, :target => "_blank" %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

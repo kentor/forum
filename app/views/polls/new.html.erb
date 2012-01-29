@@ -1,0 +1,34 @@
+<% title "New Poll" %>
+<% if @poll.errors.any? %>
+<div class="error">
+  <ol>
+  <% @poll.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ol>
+</div>
+<% end %>
+<div class="form">
+  <%= form_for @poll, :as => :poll, :url => create_poll_path do |f| %>
+  <table>
+    <tr>
+      <td>Poll Question:</td>
+      <td><%= f.text_field :name, :maxlength => 70, :size => 30 %> <i>70 characters max</i></td>
+    </tr>
+    <% index = 1 %>
+    <%= f.fields_for :choices do |c| %>
+    <tr>
+      <td>Option #<%= index %>:</td>
+      <td>
+        <%= c.text_field :name, :maxlength => 100, :size => 30 %>
+        <%= "* Required" if index.to_s =~ /^[12]$/ %><%= content_tag(:i, ", 100 characters max") if index == 1%>
+      </td>
+    </tr>
+    <% index += 1 %>
+    <% end %>
+    <tr>
+      <td colspan="2" class="aligncenter"><%= f.submit "Create Poll and Generate BBCode" %></td>
+    </tr>
+  </table>
+  <% end %>
+</div>

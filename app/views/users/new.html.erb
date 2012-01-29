@@ -1,0 +1,48 @@
+<% title 'Registration' %>
+<% if @user.errors.any? %>
+<div class="error">
+  <ol>
+  <% @user.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ol>
+</div>
+<% end %>
+<div class="form">
+  <%= form_for @user, :as => :user, :url => create_user_path do |f| %>
+    <table>
+      <tr>
+        <td>Username</td>
+        <td><%= f.text_field :username, :maxlength => 20, :size => 30 %> <i>20 characters max</i></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><%= f.password_field :password %></td>
+      </tr>
+      <tr>
+        <td>Password confirmation</td>
+        <td><%= f.password_field :password_confirmation %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= f.text_field :email %> <i>Activation key sent to this email</i></td>
+      </tr>
+      <tr>
+        <td>Location</td>
+        <td><%= f.select :location, select_locations %></td>
+      </tr>
+      <tr>
+        <td>Birthday</td>
+        <td><%= f.date_select :birthday, :start_year => (Time.now.year - 80), :end_year => Time.now.year, :include_blank => true %></td>
+      </tr>
+      <tr>
+        <td>Captcha</td>
+        <td><%= raw recaptcha_tag(:challenge, :display => { :theme => 'clean' }) %></td>
+      </tr>
+      <tr>
+        <td><%= submit_tag 'Register' %></td>
+        <td></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

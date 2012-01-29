@@ -1,0 +1,49 @@
+<% title 'New Thread' %>
+<% if @thread.errors.any? %>
+<div class="error">
+  <ol>
+  <% @thread.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ol>
+</div>
+<% end %>
+<% if params[:preview]%>
+<div class="post bglightgray">
+  <div class="body size13">
+    <%= bb @post.body, :smilies => @post.smilies, :html => @post.html %>
+  </div>
+</div>
+<% end %>
+<div class="form">
+  <%= form_tag create_thread_path(@forum) do %>
+    <table>
+      <tr>
+        <td>Forum:</td>
+        <td><strong><%= link_to @forum.title, show_forum_path(@forum) %></strong></td>
+      </tr>
+      <tr>
+        <td>Title:</td>
+        <td><%= text_field :thread, :title, :maxlength => 50, :size => 30 %> <i>50 characters max</i></td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top">Message:</td>
+        <td><%= text_area :post, :body %></td>
+      </tr>
+      <tr>
+        <td>
+          <%= submit_tag 'Post', :name => nil %>
+          <%= submit_tag 'Preview', :name => 'preview' %>
+        </td>
+        <td>
+        <% if can_use_html %>
+          <label>Enable HTML: <%= check_box :post, :html %></label>
+        <% end %>
+          <label>Enable Smilies: <%= check_box :post, :smilies %></label>
+          <%= link_to "Smilies and BBcode", smilies_and_bbcode_path, :target => "_blank" %>&nbsp;
+          <%= link_to "Add a Poll", new_poll_path, :target => "_blank" %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

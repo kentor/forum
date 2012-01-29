@@ -1,0 +1,64 @@
+<% title @title %>
+<%= render 'shared/staff_menu' %>
+<div class="alignright">
+  <%= link_to('New', new_ban_path) + "&nbsp;".html_safe if is_mod? %>
+  <%= link_to 'Permanent Bans', bans_path(:type => 'perm') if params[:type].blank? %>
+  <%= link_to 'Temporary Bans', bans_path if params[:type] %>
+</div>
+<div class="list">
+  <table>
+    <tr>
+      <th>Username</th>
+      <th>Banned By</th>
+      <th>Banned On</th>
+      <th>Unbanned On</th>
+      <th>Duration</th>
+    <% if is_mod? %>
+      <th></th>
+    <% end %>
+      <th></th>
+    </tr>
+  <% @bans.each do |ban| %>
+    <tr class="<%= c = cyclize %>">
+      <td>
+        <%= link_to (u = ban.user).styled_name, show_user_path(:username => u.username) %><br>
+        <span class="size11">
+          Banned <%= link_to_unless_current b = ban.user.bans.size, bans_history_path(:username => u.username) %>
+          Time<%= b == 1 ? "" : "s" %>
+        </span>
+      </td>
+      <td>
+        <%= link_to (u = ban.banner).styled_name, show_user_path(:username => u.username) %><br>
+        <span class="size11">Banned <%= pluralize(Ban.where(:banner_id => ban.banner_id).size, 'User') %></span>
+      </td>
+      <td><%= ban.created_at.strftime("%B %d %Y %H:%M") %></td>
+      <td><%= ban.permanent? ? 'Never' : ban.expires_at.strftime("%B %d %Y %H:%M") %></td>
+      <td><%= ban.duration %></td>
+    <% if is_mod? %>
+      <td><%= link_to 'Unban', unban_user_path(:username => ban.user.username) %></td>
+    <% end %>
+      <td><%= link_to '+', '#', :class => 'monospace', :title => 'Show ban reason', "data-ban" => ban.id %></td>
+    </tr>
+    <tr id="ban_reason_<%= ban.id %>" style="display:none">
+      <td colspan="<%= is_mod? ? '7': '6' %>" style="border-top:0;padding-bottom:8px" class="<%= c %>">
+        <strong>Reason:</strong> <%= bb ban.reason, :html => true  %>
+      <% if ban.post %>
+        <br><%= bb "[quote]User was banned for this post: ([url=#{show_thread_path(ban.post.topic_id, :page => ban.post.page, :anchor => ban.post.sub_id)}]Direct Link[/url])\n\n#{ban.post.body}[/quote]", :smilies => ban.post.smilies, :html => ban.post.html %>
+      <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<script>
+$("a[data-ban]").click(function() {
+    if ($(this).text() == "+") {
+        $(this).text("-");
+    } else {
+        $(this).text("+");
+    }
+    var ban_id = $(this).attr("data-ban");
+    $("tr#ban_reason_" + ban_id).toggle();
+    return false;
+})
+</script>

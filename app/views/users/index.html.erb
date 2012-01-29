@@ -1,0 +1,60 @@
+<% title 'Listing Users' %>
+<%= render 'shared/staff_menu' %>
+<div class="form">
+  <%= form_tag users_path, :method => :get do %>
+    <table>
+      <tr>
+        <td style="width:20%!important">Filter by Username</td>
+        <td style="width:30%!important"><%= text_field_tag :u, params[:u] %></td>
+        <td style="width:20%!important">Email</td>
+        <td style="width:30%!important"><%= text_field_tag :e, params[:e] %></td>
+      </tr>
+      <tr>
+        <td>Filter by Groups</td>
+        <td><%= text_field_tag :g, params[:g] %></td>
+        <td>Registration IP</td>
+        <td><%= text_field_tag :r, params[:r] %></td>
+      <tr>
+        <td>
+          <%= submit_tag 'Go', :name => nil %>
+          <%= submit_tag 'Reset', :name => nil, :type => :reset %>
+        </td>
+        <td><%= link_to 'Clear Filters', users_path %></td>
+        <td>Used IPs</td>
+        <td><%= text_field_tag :ip, params[:ip] %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+<div class="alignright"><%= paginate @users %></div>
+<div class="list">
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email Address</th>
+      <th>Groups</th>
+      <th>Regist IP</th>
+    <% if is_mod? %>
+      <th></th>
+      <th></th>
+    <% end %>
+      <th></th>
+    </tr>
+    <% @users.each do |user| %>
+    <tr class="<%= cyclize %>">
+      <td><%= user.id.to_s %></td>
+      <td><%= user_icon(user) %> &nbsp; <%= link_to user.styled_name, show_user_path(:username => user.username) %></td>
+      <td><%= user.email %></td>
+      <td><%= user.groups %></td>
+      <td><%= user.registration_ip %></td>
+      <% if is_mod? %>
+      <td><%= link_to 'edit', edit_user_path(:username => user.username) %></td>
+      <td><%= link_to 'ban', new_ban_path(:username => user.username) %></td>
+      <% end %>
+      <td><%= link_to 'pm', new_message_path(:recipient => user.username) %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+<div class="alignright"><%= paginate @users %></div>

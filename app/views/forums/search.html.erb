@@ -1,0 +1,65 @@
+<% title 'Search' %>
+<%= form_tag search_path, :method => :get do %>
+<div class="form">
+  <table>
+    <tr>
+      <td class="aligncenter">
+        <%= text_field_tag :q, params[:q], :size => 35 %>
+        <%= submit_tag 'Search', :name => nil %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table class="none" style="margin:auto">
+          <tr>
+            <td>
+              <%= radio_button_tag :t, 't', (@ch = params[:t] != 'c' ? true : false) %> Search Title<br />
+              <%= radio_button_tag :t, 'c', !@ch %> Search Content
+            </td>
+            <td>
+              <%= select_tag :f, options_for_select([["(All Forums)", ""]] + allowed_forums(true), params[:f].to_i) %><br />
+              <%= text_field_tag :u, params[:u] %> (Username)
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+<% end %>
+
+<% if params[:q] %>
+<div class="alignright"><%= paginate @posts || @threads %></div>
+<div class="list">
+  <table>
+    <tr>
+      <th style="width: 45%">Topic</th>
+      <th style="width: 20%">Started by</th>
+      <th style="width: 5%">Replies</th>
+      <th style="width: 5%">Views</th>
+      <th style="width: 25%">Last reply</th>
+    </tr>
+  <% @threads.each do |thread| %>
+    <tr class="<%= cyclize %>">
+      <td>
+        <div class="size11 colorlightgray"><%= thread.forum.title %>:</div>
+        <%= link_to thread.title, show_thread_path(thread) %>
+      <% if params[:t] == 'c' %>
+        <div class="size11">
+          &nbsp;
+        <% @posts.select { |p| p.topic_id == thread.id }.sort { |a,b| b.id <=> a.id }.each do |post| %>
+          &nbsp;<%= link_to post.sub_id, show_thread_path(:id => post.topic_id, :anchor => post.sub_id, :page => post.page) %>
+        <% end %>
+        </div>
+      <% end %>
+      </td>
+      <td><%= thread.user.username %></td>
+      <td><%= thread.replies %></td>
+      <td><%= thread.views.to_s %></td>
+      <td><%= thread.last_post_time %><br /><%= thread.last_poster.username %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<div class="alignright"><%= paginate @posts || @threads %></div>
+<% end%>

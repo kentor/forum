@@ -1,0 +1,35 @@
+<% title 'Icons' %>
+<%= render 'shared/staff_menu' %>
+<div class="list">
+  <table>
+    <tr>
+      <th>Icon</th>
+      <th>Icon name</th>
+    <% if is_admin? %>
+      <th></th>
+    <% end %>
+    </tr>
+  <% @icons.each do |filename| %>
+    <tr class="<%= cyclize %>">
+      <td><%= image_tag("#{USER_ICONS_PUB_PATH}/#{filename}") %></td>
+      <td><%= filename %></td>
+    <% if is_admin? %>
+      <td><%= link_to 'delete', destroy_icon_path(:icon => filename) %></td>
+    <% end %>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<% if is_admin? %>
+<h2><span>Upload new icon</span></h2>
+
+<div class="form aligncenter">
+  <%= form_tag create_icon_path, :multipart => true do %>
+    <table>
+      <tr>
+        <td><%= file_field_tag :icon %> <%= submit_tag 'Upload' %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+<% end %>

@@ -1,0 +1,23 @@
+<% title @title %>
+<div class="presentation">
+  <table cellspacing="1">
+  <% if @vote %>
+    <tr>
+      <td>Poll (#<%= @poll.id %>):</td>
+      <td><%= @poll.name %></td>
+    </tr>
+    <tr>
+      <td>Your Vote:</td>
+      <td><%= @choice.name %></td>
+    </tr>
+  <% end %>
+    <tr>
+      <td><a href="javascript:window.close()">Close Window</a></td>
+    <% if @vote %>
+      <td>You would have to refresh the forum page to see your vote.</td>
+    <% else %>
+      <td>Sorry, but it appears you've already voted in poll #<%= params[:id] %>: <i>"<%= @poll.name %>"</i></td>
+    <% end %>
+    </tr>
+  </table>
+</div>

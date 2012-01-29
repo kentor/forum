@@ -1,0 +1,79 @@
+<% title "Editing User: #{@user.username}" %>
+<%= render 'shared/staff_menu' %>
+<div class="form">
+  <%= form_for @user, :url => update_user_path(@user) do |f| %>
+    <div class="bold">Profile Settings</div>
+    <table>
+      <tr>
+        <td>Username:</td>
+        <td><%= f.text_field :username, :maxlength => 20, :size => 30 %></td>
+      </tr>
+    <% if is_admin? %>
+      <tr>
+        <td>Password:</td>
+        <td><%= f.text_field :password %></td>
+      </tr>
+    <% end %>
+      <tr>
+        <td>Location:</td>
+        <td><%= f.text_field :location %></td>
+      </tr>
+      <tr>  
+        <td>Birthday:</td>
+        <td><%= f.date_select :birthday, :start_year => 80.years.ago.year, :end_year => Time.now.year, :include_blank => true %></td>
+      </tr>
+      <tr>
+        <td>Signature:</td>
+        <td><%= f.text_field :signature, :maxlength => 255, :size => 30 %></td>
+      </tr>
+      <tr>
+        <td>Public Profile:</td>
+        <td><%= f.text_area :profile %></td>
+      </tr>
+    </table>
+    
+    <div class="bold">Administrative Settings</div>
+    <table>
+      <tr>
+        <td>Email:</td>
+        <td><%= f.text_field :email %></td>
+      </tr>
+    <% if is_admin? %>
+      <tr>
+        <td>Groups:</td>
+        <td><%= f.text_field :groups %></td>
+      </tr>
+    <% end %>
+      <tr>
+        <td>Username Style:</td>
+        <td><%= f.text_field :username_style, :maxlength => 255, :size => 30 %></td>
+      </tr>
+      <tr>
+        <td>Icon:</td>
+        <td>
+          <%= f.select :icon, Icon.all, :include_blank => true %>
+          <span class="user_icon">
+            <%= image_tag("#{USER_ICONS_PUB_PATH}/#{@user.icon}", :style => "vertical-align:middle") if !@user.icon.blank? %>
+          </span>
+        </td>
+      </tr>      
+      <tr>
+        <td><%= f.submit 'Save' %></td>
+        <td>
+          <%= link_to 'Show User Info', show_user_path(:username => @user.username) %> |
+          <%= link_to 'Show Public Profile', show_profile_path(:username => @user.username) %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+<script>
+$("select#user_icon").change(function() {
+  var select = $("select#user_icon option:selected").text();
+  if (select == "") {
+    $("span.user_icon").html('');
+  } else {
+    $("span.user_icon").html('<%= image_tag("#{USER_ICONS_PUB_PATH}/' + select + '", :style => "vertical-align:middle") %>');
+  }
+})
+</script>

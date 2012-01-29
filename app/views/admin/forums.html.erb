@@ -1,0 +1,39 @@
+<% title 'Forum Management' %>
+<%= render 'shared/staff_menu' %>
+<div class="list">
+  <table>
+    <tr>
+      <th></th>
+      <th>Forum</th>
+      <th><%= link_to 'New', new_forum_path %></th>
+    </tr>
+    <tbody id="forums" data-update-url="<%= sort_forums_url %>">
+      <% @forums.each do |forum| %>
+      <tr class="<%= cyclize %>" id="forum_<%= forum.id %>">
+        <td class="handle">&nbsp;</td>
+        <td>
+          <%= link_to forum.title, edit_forum_path(forum) %><br>
+          <span class="size11">
+            <%= content_tag(:em, 'View: ', :class => 'bold') + forum.allowed_to_view if !forum.allowed_to_view.blank? %>
+            <%= content_tag(:em, 'Read: ', :class => 'bold') + forum.allowed_to_read if !forum.allowed_to_read.blank? %>
+            <%= content_tag(:em, 'Reply: ', :class => 'bold') + forum.allowed_to_reply if !forum.allowed_to_reply.blank? %>
+            <%= content_tag(:em, 'Create: ', :class => 'bold') + forum.allowed_to_create if !forum.allowed_to_create.blank? %>
+            <%= content_tag(:em, 'Index: ', :class => 'bold') + forum.threads_in_index.to_s %>
+            <%= content_tag(:em, 'Forum: ', :class => 'bold') + forum.threads_in_forum.to_s %>
+          </span>
+        </td>
+        <td><%= link_to 'Delete', destroy_forum_path(forum) %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<script>
+$("#forums").sortable({
+  axis: 'y',
+  handle: '.handle',
+  update: function () {
+    $.post($(this).data('update-url'), $(this).sortable('serialize'))
+  }
+});
+</script>

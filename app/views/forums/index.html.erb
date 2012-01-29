@@ -1,0 +1,28 @@
+<% title 'Forums' %>
+<% @forums.each do |forum| %>
+<div class="forum-index">
+  <div class="title size13"><%= link_to forum.title, show_forum_path(forum) %></div>    
+  <div class="threads bglightgray">
+    <table>
+      <tr>
+        <th style="width: 45%">Topic</th>
+        <th style="width: 20%">Started by</th>
+        <th style="width: 5%">Replies</th>
+        <th style="width: 30%">Last reply</th>
+      </tr>
+    <% forum.recent_threads.each do |thread| %>
+      <tr class="size11">
+        <td>
+          <%=raw "&#187; " if thread.sticky? %>
+          <%= link_to thread.title, show_thread_path(thread) %>
+          <%= jump_to_last_page(thread) %>
+        </td>
+        <td><%= thread.user.username %></td>
+        <td><%= thread.replies %></td>
+        <td><%= thread.last_posted_at.strftime("%b %d, %H:%M") %>, <%= thread.last_poster.username %></td>
+      </tr>
+    <% end %>
+    </table>
+  </div>
+</div>
+<% end %>

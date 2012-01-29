@@ -1,0 +1,5 @@
+<% title "Editing Forum: #{@forum.title}" %>
+<%= render 'shared/staff_menu' %>
+<%= form_for @forum, :as => :forum, :url => update_forum_path do |f| %>
+  <%= render 'form', :f => f %>
+<% end %>

@@ -1,0 +1,22 @@
+<% title "Log In" %>
+<div class="form">
+  <%= form_tag login_path do  %>
+    <table>
+      <tr>
+        <td>Username</td>
+        <td><%= text_field :login, :username %></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><%= password_field :login, :password %></td>
+      </tr>
+      <tr>
+        <td><%= submit_tag 'Login' %></td>
+        <td>
+          <label>Remember Me <%= check_box_tag :remember_me %></label>
+          <%= link_to 'Forgot Password', request_password_path %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

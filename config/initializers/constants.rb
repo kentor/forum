@@ -1,0 +1,9 @@
+ICONS_PATH           = "#{Rails.root}/app/assets/images/icons"
+SMILIES_PATH         = "#{Rails.root}/public/smilies"
+USER_ICONS_PATH      = "#{Rails.root}/public/usericons"
+USER_PHOTOS_PATH     = "#{Rails.root}/public/userphotos"
+SMILIES_PUB_PATH     = "/smilies"
+USER_ICONS_PUB_PATH  = "/usericons"
+USER_PHOTOS_PUB_PATH = "/userphotos"
+NOT_ENOUGH_RIGHTS    = 'shared/not_enough_rights'
+NUKED_MESSAGE        = '-- Nuked --'

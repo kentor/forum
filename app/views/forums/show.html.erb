@@ -1,0 +1,32 @@
+<% title @forum.title %>
+<div>
+  <table>
+    <tr>
+      <td><%= link_to 'Forum Index', root_path %> &nbsp; <%= link_to('New Thread', new_thread_path(@forum)) if can_create(@forum) %></td>
+      <td class="alignright"><%= paginate @threads %></td>
+    </tr>
+  </table>
+</div>
+<div class="list">
+  <table>
+    <tr>
+      <th></th>
+      <th style="width: 45%">Topic</th>
+      <th style="width: 20%">Started by</th>
+      <th style="width: 5%">Replies</th>
+      <th style="width: 5%">Views</th>
+      <th style="width: 25%">Last reply</th>
+    </tr>
+  <% @threads.each do |thread| %>
+    <tr class="<%= cyclize %>">
+      <td><%= thread_status(thread) %></td>
+      <td><%= link_to thread.title, show_thread_path(thread) %><%= jump_to_last_page(thread) %></td>
+      <td><%= thread.user.username %></td>
+      <td><%= thread.replies %></td>
+      <td><%= thread.views.to_s %></td>
+      <td><%= thread.last_post_time %><br /><%= thread.last_poster.username %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<div class="alignright"><%= paginate @threads %></div>

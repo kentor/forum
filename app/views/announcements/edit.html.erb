@@ -1,0 +1,5 @@
+<% title 'Edit Announcement' %>
+<%= render 'shared/staff_menu' %>
+<%= form_for @announcement, :as => :announcement, :url => update_announcement_path do |f| %>
+  <%= render 'form', :f => f %>
+<% end %>

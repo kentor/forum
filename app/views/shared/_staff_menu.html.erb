@@ -1,0 +1,17 @@
+<div class="tabs aligncenter">
+  <ul>
+    <li><%= link_to_unless_current 'Bans', bans_path %></li>
+    <li><%= link_to_unless_current 'Users', users_path %></li>
+    <li><%= link_to_unless_current 'Sessions', sessions_path %></li>
+  <% if is_mod? %>
+    <li><%= link_to_unless_current 'Smilies', smilies_path %></li>
+    <li><%= link_to_unless_current 'Icons', icons_path %></li>
+    <li><%= link_to_unless_current 'Announcements', announcements_path %></li>
+  <% end %>
+  <% if is_admin? %>
+    <li><%= link_to_unless_current 'Forums', forums_path %></li>
+    <li><%= link_to_unless_current 'Settings', settings_path %></li>
+  <% end %>
+    <li><%= link_to_unless_current 'Stats', stats_path %></li>
+  </ul>
+</div>

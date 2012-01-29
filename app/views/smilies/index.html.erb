@@ -1,0 +1,42 @@
+<% title 'Smilies' %>
+<%= render 'shared/staff_menu' %>
+<div class="list">
+  <table>
+    <tr>
+      <th>Smiley</th>
+      <th>Smiley Name</th>
+      <th>Smiley Code</th>
+      <th></th>
+    </tr>
+  <% @smilies.each do |smiley| %>
+    <% if File.exists?("#{SMILIES_PATH}/#{smiley.filename}") %>
+    <tr class="<%= cyclize %>">
+      <td><%= image_tag("#{SMILIES_PUB_PATH}/#{smiley.filename}") %></td>
+      <td><%= smiley.filename %></td>
+      <td><%= smiley.code %></td>
+      <td><%= link_to 'delete', destroy_smiley_path(:filename => smiley.filename), :confirm => "Are you sure?" %></td>
+    </tr>
+    <% end %>
+  <% end %>
+  </table>
+</div>
+
+<h2><span>Upload new smiley</span></h2>
+<div class="form">
+  <%= form_tag create_smiley_path, :multipart => true do %>
+    <table>
+      <tr>
+        <td>File:</td>
+        <td><%= file_field_tag :smiley %></td>
+      </tr>
+      <tr>
+        <td>Smiley Code:</td>
+        <td><%= text_field_tag :code %> <i>20 characters max</i></td>
+      </tr>
+      <tr>
+        <td><%= submit_tag 'Upload' %></td>
+        <td></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

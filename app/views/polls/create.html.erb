@@ -1,0 +1,16 @@
+<% title 'Poll Created' %>
+<div class="post bglightgray">
+  <div class="body size13">
+    <table>
+      <tr>
+        <td>
+          <%= bb("<center><b>[red]Copy the following BBCode to your post:[/red]</b>
+[code][poll]#{@poll.id}[/poll][/code]
+This will generate the following poll:
+[poll]#{@poll.id}[/poll]
+<a href=\"javascript:window.close()\">Close Window</a></center>", :html => true) %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

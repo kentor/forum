@@ -1,0 +1,36 @@
+<% title 'System Settings' %>
+<%= render 'shared/staff_menu' %>
+<div class="form">
+  <%= form_for @settings, :as => :settings, :url => update_settings_path do |f| %>
+    <table>
+      <tr>
+        <td>Administrator Groups</td>
+        <td><%= f.text_field :admin_groups %></td>
+      </tr>
+      <tr>
+        <td>Moderator Groups</td>
+        <td><%= f.text_field :mod_groups %></td>
+      </tr>
+      <tr>
+        <td>Staff Groups</td>
+        <td><%= f.text_field :staff_groups %></td>
+      </tr>
+      <tr>
+        <td>HTML Groups</td>
+        <td><%= f.text_field :html_groups %></td>
+      </tr>  
+      <tr>
+        <td>Bot ID</td>
+        <td><%= f.text_field :bot_id %></td>
+      </tr>
+      <tr>
+        <td>Automated Ban List Thread ID</td>
+        <td><%= f.text_field :ban_thread %></td>
+      </tr>
+      <tr>
+        <td><%= f.submit 'Submit' %></td>
+        <td></td>
+      </tr>
+    </table>
+ <% end %>
+</div>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"> 
+    <title><%= yield(:title) || "Forums" %></title>
+    <%= stylesheet_link_tag 'application' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tag %>
+  </head>
+  <body>
+    <div id="header">
+      <%= render 'layouts/header' %>
+    </div>
+    <div id="page">
+      <%= content_tag(:div, announcement, :class => "announcement bold aligncenter") if announcement.present? %>
+      <h2><span><%= yield(:title) %></span></h2>
+      <%= content_tag(:div, flash[:error], :class => "error") if flash[:error] %>
+      <%= content_tag(:div, flash[:notice], :class => "notice") if flash[:notice] %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

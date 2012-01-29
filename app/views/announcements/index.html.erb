@@ -1,0 +1,23 @@
+<% title 'List of Announcements' %>
+<%= render 'shared/staff_menu' %>
+<div class="alignright"><%= link_to 'New Announcement', new_announcement_path %></div>
+<div class="list">
+  <table>
+    <tr>
+      <th>Message</th>
+      <th>Live</th>
+      <th>Toggle</th>
+      <th></th>
+      <th></th>
+    </tr>
+  <% @announcements.each do |announcement| %>
+    <tr class="<%= cyclize %>">
+      <td><%= bb announcement.message, :smilies => false, :html => true %></td>
+      <td><%= announcement.live %></td>
+      <td><%= link_to announcement.live ? 'turn off' : 'turn on', toggle_announcement_path(announcement) %></td>
+      <td><%= link_to 'edit', edit_announcement_path(announcement) %></td>
+      <td><%= link_to 'delete', destroy_announcement_path(announcement) %></td>
+    </tr>
+  <% end%>
+  </table>
+</div>
